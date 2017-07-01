@@ -18,6 +18,7 @@ type Game struct {
 
 func (game *Game) Start() {
 	for !game.Board.IsOver() {
+		fmt.Println("Current player:", game.CurrentPlayer)
 		i, j := game.CurrentPlayer.GetMove()
 
 		if (game.CurrentPlayer == game.PlayerOne) {
@@ -28,5 +29,13 @@ func (game *Game) Start() {
 
 		fmt.Println(game.Board)
 		game.switchPlayer()
+	}
+}
+
+func (game *Game) switchPlayer() {
+	if game.CurrentPlayer == game.PlayerOne {
+		game.CurrentPlayer = game.PlayerTwo
+	} else {
+		game.CurrentPlayer = game.PlayerOne
 	}
 }
