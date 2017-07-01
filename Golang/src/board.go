@@ -14,12 +14,34 @@ type Board struct {
 	Grid [3][3] string
 }
 
+func (b *Board) GetCopy() Board {
+    newBoard := NewBoard()
+    for i := range b.Grid {
+        for j := range b.Grid[i] {
+            newBoard.Grid[i][j] = b.Grid[i][j]
+        }
+    }
+    return newBoard
+}
+
 func (board *Board) PlaceMark(i int, j int, mark string) {
 	board.Grid[i][j] = mark
 }
 
 func (board *Board) IsOver() bool {
 	return (board.isWon() || board.isTied())
+}
+
+func (board *Board) GetAvailablePos() [][2]int {
+    availPos := [][2]int{}
+    for i := range board.Grid {
+        for j := range board.Grid[i] {
+            if board.Grid[i][j] == "_" {
+                availPos = append(availPos, [2]int{i, j})
+            }
+        }
+    }
+    return availPos
 }
 
 func (board *Board) Winner() string {
@@ -60,12 +82,12 @@ func (board *Board) Winner() string {
 }
 
 func (board Board) String() string {
-	var boardStr string = ""
+	var boardStr string = "    "
 	for i := range board.Grid {
 		for j := range board.Grid[i] {
 			boardStr += board.Grid[i][j] + " "
 		}
-		boardStr += "\n"
+		boardStr += "\n    "
 	}
 	return boardStr
 }
